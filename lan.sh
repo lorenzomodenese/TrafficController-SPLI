@@ -12,7 +12,7 @@ tc qdisc add dev ${OUT_INTERFACE} root handle 1 cbq bandwidth 100Mbit avpkt 1000
 tc class add dev ${OUT_INTERFACE} parent 1: classid 1:10 cbq bandwidth 20Mbit rate 100Kbit weight 1Kbit prio 5 allot 1514 avpkt 1000 bounded
 
 #creo la coda associata alla classe sempre per il ping
-tc qdisc add dev ${OUT_INTERFACE} parent 1:10 handle 10 netem delay 100ms 10ms distribution normal loss .1% duplicate 1%
+tc qdisc add dev ${OUT_INTERFACE} parent 1:10 handle 10 netem delay 100ms 10ms distribution normal loss 0.1% duplicate 1%
 
 #creo il filtro per ping
 tc filter add dev ${OUT_INTERFACE} parent 1:0 protocol ip prio 5 handle 23 fw classid 1:10
@@ -22,7 +22,7 @@ tc filter add dev ${OUT_INTERFACE} parent 1:0 protocol ip prio 5 handle 23 fw cl
 tc class add dev ${OUT_INTERFACE} parent 1: classid 1:20 cbq bandwidth 30Mbit rate 20MBit weight 100Kbit prio 7 allot 1514 avpkt 1000 bounded
 
 #creo la coda associata alla classe per connessioni tcp
-tc qdisc add dev ${OUT_INTERFACE} parent 1:20 handle 20 netem delay 50ms 5ms distribution normal loss .1% duplicate 1%
+tc qdisc add dev ${OUT_INTERFACE} parent 1:20 handle 20 netem delay 50ms 5ms distribution normal loss 0.1% duplicate 1%
 
 #creo il filtro per connessioni tcp
 tc filter add dev ${OUT_INTERFACE} parent 1:0 protocol ip prio 10 handle 24 fw classid 1:20
@@ -32,7 +32,7 @@ tc filter add dev ${OUT_INTERFACE} parent 1:0 protocol ip prio 10 handle 24 fw c
 tc class add dev ${OUT_INTERFACE} parent 1: classid 1:30 cbq bandwidth 50Mbit rate 20MBit weight 2Mbit prio 8 allot 1514 avpkt 1000 bounded
 
 #creo la coda associata alla classe per connessioni ssh
-tc qdisc add dev ${OUT_INTERFACE} parent 1:30 handle 30 netem delay 50ms 5ms distribution normal loss .1% duplicate 1%
+tc qdisc add dev ${OUT_INTERFACE} parent 1:30 handle 30 netem delay 50ms 5ms distribution normal loss 0.1% duplicate 1%
 
 #creo il filtro per connessioni ssh
 tc filter add dev ${OUT_INTERFACE} parent 1:0 protocol ip prio 10 handle 25 fw classid 1:30
